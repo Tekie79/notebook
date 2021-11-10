@@ -1,0 +1,36 @@
+.sidebar-container {
+  width: 25%;
+  /* border: 2px solid rgb(214, 213, 213); */
+  padding-top: 60px;
+  padding-right: 40px;
+}
+.sidebar-card {
+  width: 100%;
+  height: 140px;
+  padding: 20px;
+  background-color: rgb(238, 237, 237);
+  text-align: center;
+  margin: 15px 30px;
+
+  border-radius: 10px;
+  position: relative;
+  cursor: pointer;
+}
+
+.sidebar-card .note-delete {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  color: rgb(97, 95, 95);
+}
+.sidebar-card .note-delete:hover {
+  color: rgb(173, 57, 57);
+}
+
+/* Note Selection */
+.note-selected {
+  border: 2px solid #4a8f7e;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  transform: scale(1.02);
+  background-color: rgb(178, 219, 204);
+}

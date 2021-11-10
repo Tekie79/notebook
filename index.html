@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Notebook App</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css"
+    />
+    <link rel="stylesheet" href="styles/main.css" />
+  </head>
+  <body>
+    <header class="notebook-header">
+      <div class="add-note">
+        <button class="add-note__btn">Add Note</button>
+      </div>
+      <div class="notebook-header__title"><h1>Your Notebook</h1></div>
+      <div class="ui slider checkbox">
+        <input type="checkbox" name="public" />
+        <label>Dark Mode</label>
+      </div>
+    </header>
+
+    <section class="notebook-container">
+      <div class="sidebar-container">
+        <div class="notebook-sidebar">
+          <div class="sidebar-card note-selected">
+            <div class="sidebar-card__body">
+              <h2>Untitled</h2>
+              <p>Nov. 09, 2021</p>
+            </div>
+  
+            <i class="note-delete fas fa-trash-alt"></i>
+          </div>
+          <div class="sidebar-card">
+            <div class="sidebar-card__body">
+              <h2>Untitled</h2>
+              <p>Nov. 09, 2021</p>
+            </div>
+  
+            <i class="note-delete fas fa-trash-alt"></i>
+          </div>
+        </div>
+      </div>
+     
+      <div class="notebook-body">
+        <div class="notebook-body__tools">
+          <div class="font-family">
+            <select name="font-family" id="font-family">
+              <option value="san-serif">San-serif</option>
+              <option value="san-serif">San-serif</option>
+              <option value="san-serif">San-serif</option>
+              <option value="san-serif">San-serif</option>
+            </select>
+          </div>
+          <div class="font-size">
+            <select name="font-size" id="font-size">
+              <option value="12">12</option>
+              <option value="14">14</option>
+              <option value="16">16</option>
+              <option value="18">18</option>
+              <option value="20">20</option>
+              <option value="22">22</option>
+              <option value="24">24</option>
+            </select>
+          </div>
+          <div class="note-save">
+            <button class="note-save__btn">Save</button>
+          </div>
+          <i class="note-share fas fa-share"></i>
+        </div>
+        <div class="notebook__text-field">
+          <textarea name="notepad" id="notepad" class="note__text-area" placeholder="Write something..."></textarea>
+        </div>
+      </div>
+    </section>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
+    <script src="./scripts/main.js" type="module"></script>
+  </body>
+</html>
