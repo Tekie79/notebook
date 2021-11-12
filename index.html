@@ -28,28 +28,10 @@
     </header>
 
     <section class="notebook-container">
-      <div class="sidebar-container">
-        <div class="notebook-sidebar">
-          <div class="sidebar-card note-selected">
-            <div class="sidebar-card__body">
-              <h2>Untitled</h2>
-              <p>Nov. 09, 2021</p>
-            </div>
-  
-            <i class="note-delete fas fa-trash-alt"></i>
-          </div>
-          <div class="sidebar-card">
-            <div class="sidebar-card__body">
-              <h2>Untitled</h2>
-              <p>Nov. 09, 2021</p>
-            </div>
-  
-            <i class="note-delete fas fa-trash-alt"></i>
-          </div>
-        </div>
-      </div>
-     
-      <div class="notebook-body">
+      <div class="notebook-sidebar"></div>
+
+      <div class="notebook-body hidden">
+        <h2 class="note-body__title"></h2>
         <div class="notebook-body__tools">
           <div class="font-family">
             <select name="font-family" id="font-family">
@@ -63,7 +45,7 @@
             <select name="font-size" id="font-size">
               <option value="12">12</option>
               <option value="14">14</option>
-              <option value="16">16</option>
+              <option value="16" selected>16</option>
               <option value="18">18</option>
               <option value="20">20</option>
               <option value="22">22</option>
@@ -76,12 +58,24 @@
           <i class="note-share fas fa-share"></i>
         </div>
         <div class="notebook__text-field">
-          <textarea name="notepad" id="notepad" class="note__text-area" placeholder="Write something..."></textarea>
+          <textarea
+            name="notepad"
+            id="notepad"
+            class="note__text-area"
+            placeholder="Write something..."
+          ></textarea>
         </div>
       </div>
     </section>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
-    <script src="./scripts/main.js" type="module"></script>
+    <div class="modal-bg modal-hide"></div>
+    <div class="add-note__modal modal-hide">
+      <input class="add-note__input" type="text" value="Untitled Note" />
+      <div class="modal-btns">
+        <button class="btn-modal modal-cancel">Cancel</button>
+        <button class="btn-modal modal-save">Create</button>
+      </div>
+    </div>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script> -->
+    <script src="./scripts/main.js"></script>
   </body>
 </html>

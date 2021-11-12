@@ -1,0 +1,77 @@
+.modal-bg {
+  position: fixed;
+  z-index: 1;
+  width: 100vw;
+  height: 100vh;
+  background-color: black;
+  top: 0;
+  opacity: 0.3;
+}
+
+.add-note__modal {
+  position: fixed;
+  z-index: 1;
+  top: 30%;
+  left: 34%;
+  border: 2px solid rgb(75, 158, 126);
+  border-radius: 20px;
+  width: 500px;
+  height: 250px;
+  background-color: rgb(255, 255, 255);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  align-items: center;
+  /* justify-content: space-evenly; */
+}
+.add-note__input {
+  margin: 60px 20px;
+  height: 50px;
+  width: 400px;
+  padding: 20px;
+  font-size: 24px;
+  outline: none;
+  border: 2px solid rgb(212, 212, 212);
+  border-radius: 10px;
+  transition: all 0.2s ease-in-out;
+}
+.add-note__input:focus {
+  box-shadow: 2px 2px 6px rgba(53, 54, 54, 0.16);
+}
+.modal-btns {
+  /* margin-top: 10px; */
+  display: flex;
+  gap: 50px;
+}
+.btn-modal {
+  padding: 10px 15px;
+  font-size: 18px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+}
+.modal-cancel {
+  background-color: rgb(194, 105, 105);
+  color: white;
+}
+.modal-cancel:hover {
+  background-color: rgb(184, 62, 62);
+}
+.modal-save {
+  background-color: rgb(65, 163, 125);
+  color: white;
+}
+.modal-save:hover {
+  background-color: rgb(31, 124, 88);
+}
+
+/* With JS Events */
+
+.no-scroll {
+  overflow: hidden;
+}
+
+.modal-hide {
+  display: none;
+}
