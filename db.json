@@ -3,83 +3,29 @@
     {
       "id": 1,
       "title": "Java script101",
-      "date": "11/11/2021, 5:56:33 PM",
-      "note": "JavaScript (often shortened to JS) is a lightweight, interpreted, object-oriented language with first-class functions, and is best known as the scripting language for Web pages, but it's used in many non-browser environments as well. It is a prototype-based, multi-paradigm scripting language that is dynamic, and supports object-oriented, imperative, and functional programming styles.JavaScript runs on the client side of the web, which can be used to design / program how the web pages behave on the occurrence of an event. JavaScript is an easy to learn and also powerful scripting language, widely used for controlling web page behavior.",
+      "date": "11/13/2021, 6:47:43 PM",
+      "note": "JavaScript (JS) is a lightweight, interpreted, or just-in-time compiled programming language with first-class functions. While it is most well-known as the scripting language for Web pages, many non-browser environments also use it, such as Node.js, Apache CouchDB and Adobe Acrobat. JavaScript is a prototype-based, multi-paradigm, single-threaded, dynamic language, supporting object-oriented, imperative, and declarative (e.g. functional programming) styles. Read more about JavaScript.",
       "selected": true,
       "fontFamily": "Tahoma",
       "fontSize": "16px"
     },
     {
       "id": 2,
-      "title": "React JS 102",
-      "date": "11/11/2021, 6:56:33 PM",
+      "title": "React JS Intro",
+      "date": "11/13/2021, 5:15:31 PM",
       "note": "React makes it painless to create interactive UIs. Design simple views for each state in your application, and React will efficiently update and render just the right components when your data changes.",
       "selected": true,
       "fontFamily": "Tahoma",
       "fontSize": "16px"
     },
     {
-      "title": "Untitled Note",
-      "date": "11/11/2021, 7:56:33 PM",
-      "note": "",
+      "title": "Save event issue",
+      "date": "11/13/2021, 6:53:24 PM",
+      "note": "now save note is working. the issue was save button event passes multiple ids.\nthe issue is solved by saving the id inside the class and getting is back inside the function and comparing it with the id. if the id matches, pass the selected id to update the new note(Save)",
       "selected": true,
       "fontFamily": "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
       "fontSize": "16px",
       "id": 3
-    },
-    {
-      "title": "Untitled Note",
-      "date": "11/11/2021, 7:57:56 PM",
-      "note": "",
-      "selected": true,
-      "fontFamily": "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-      "fontSize": "16px",
-      "id": 4
-    },
-    {
-      "title": "new note",
-      "date": "11/11/2021, 8:05:14 PM",
-      "note": "",
-      "selected": true,
-      "fontFamily": "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-      "fontSize": "16px",
-      "id": 5
-    },
-    {
-      "title": "Untitled Note2",
-      "date": "11/11/2021, 8:20:44 PM",
-      "note": "",
-      "selected": true,
-      "fontFamily": "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-      "fontSize": "16px",
-      "id": 6
-    },
-    {
-      "title": "Untitled Note3",
-      "date": "11/11/2021, 8:22:03 PM",
-      "note": "",
-      "selected": true,
-      "fontFamily": "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-      "fontSize": "16px",
-      "id": 7
-    },
-    {
-      "title": "Untitled Note5",
-      "date": "11/11/2021, 8:24:05 PM",
-      "note": "",
-      "selected": true,
-      "fontFamily": "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-      "fontSize": "16px",
-      "id": 8
-    },
-    {
-      "title": "Untitled Note6",
-      "date": "11/11/2021, 8:27:29 PM",
-      "note": "",
-      "selected": true,
-      "fontFamily": "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-      "fontSize": "16px",
-      "id": 9
     }
   ]
 }

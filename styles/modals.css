@@ -8,7 +8,9 @@
   opacity: 0.3;
 }
 
-.add-note__modal {
+.add-note__modal,
+.delete-note__modal,
+.edit-note__modal {
   position: fixed;
   z-index: 1;
   top: 30%;
@@ -25,7 +27,8 @@
   align-items: center;
   /* justify-content: space-evenly; */
 }
-.add-note__input {
+.add-note__input,
+.edit-note__input {
   margin: 60px 20px;
   height: 50px;
   width: 400px;
@@ -51,18 +54,26 @@
   border-radius: 20px;
   cursor: pointer;
 }
-.modal-cancel {
+.modal-cancel,
+.modal-no,
+.edit-cancel {
   background-color: rgb(194, 105, 105);
   color: white;
 }
-.modal-cancel:hover {
+.modal-cancel:hover,
+.modal-no:hover,
+.edit-cancel:hover {
   background-color: rgb(184, 62, 62);
 }
-.modal-save {
+.modal-save,
+.modal-yes,
+.edit-save {
   background-color: rgb(65, 163, 125);
   color: white;
 }
-.modal-save:hover {
+.modal-save:hover,
+.modal-yes:hover,
+.edit-save:hover {
   background-color: rgb(31, 124, 88);
 }
 
@@ -74,4 +85,9 @@
 
 .modal-hide {
   display: none;
+}
+
+.delete-note__modal {
+  height: 150px;
+  gap: 30px;
 }
