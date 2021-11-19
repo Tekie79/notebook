@@ -1,4 +1,6 @@
 const noteApi = " http://localhost:3000/notebook";
+const sheetApi =
+  "https://sheet.best/api/sheets/20169746-aeb6-4189-affd-1f63a4af89ff";
 //Selectors
 const notebookContainer = document.querySelector(".notebook-sidebar");
 const textArea = document.querySelector(".note__text-area");
@@ -36,28 +38,29 @@ class NotebookApp {
   // 1 - Fetch Notebook title and date to the Sidebar card.
 
   fetchCard = async () => {
-    const response = await fetch(noteApi);
+    const response = await fetch(sheetApi);
+    
     const result = await response.json();
-    this.data = result.sort((a, b) => {
-      if (a.date > b.date) {
-        return -1;
-      } else if (a.date < b.date) {
-        return 1;
-      }
-    });
+    
+    // this.data = result.sort((a, b) => {
+    //   if (a.date > b.date) {
+    //     return -1;
+    //   } else if (a.date < b.date) {
+    //     return 1;
+    //   }
+    // });
 
     // map the data to the card
     const renderCards =
-      this.data &&
-      this.data.map((note) => {
-        return ` <div class="sidebar-card" onclick="onNoteSelect(${note.id})" tabindex="-1">
+      result.map((note, index) => {
+        return ` <div class="sidebar-card" onclick="onNoteSelect(${index})" tabindex="-1">
         <div class="sidebar-card__body">
           <h2>${note.title}</h2>
           <p>${note.date}</p>
         </div >
         
-        <i class="note-edit fas fa-pencil-alt" onclick="onToggleEdit(${note.id}, '${note.title}')"></i>
-        <i class="note-delete fas fa-trash-alt" onclick="onToggleDelete(${note.id})"></i></div>
+        <i class="note-edit fas fa-pencil-alt" onclick="onToggleEdit(${index}, '${note.title}')"></i>
+        <i class="note-delete fas fa-trash-alt" onclick="onToggleDelete(${index})"></i></div>
         
       </div>`;
       });
@@ -74,9 +77,9 @@ class NotebookApp {
   // 2 - On Note Selection
 
   fetchSelectedNote = async (id) => {
-    const noteData = await fetch(`${noteApi}/${id}`);
-    const noteResult = await noteData.json();
-
+    const noteData = await fetch(`${sheetApi}/${id}`);
+    const [noteResult] = await noteData.json();
+   
     textArea.value = noteResult.note;
     noteTitle.innerHTML = noteResult.title;
     this.selectedId = id;
@@ -84,7 +87,7 @@ class NotebookApp {
   // 3 - Add Note Method
 
   addNote = async (title, date) => {
-    await fetch(noteApi, {
+    await fetch(sheetApi, {
       method: "POST",
       body: JSON.stringify({
         title: title,
@@ -103,7 +106,7 @@ class NotebookApp {
   // 4 - Delete Note Method
 
   deleteNote = async (id) => {
-    await fetch(`${noteApi}/${id}`, {
+    await fetch(`${sheetApi}/${id}`, {
       method: "DELETE",
     });
   };
@@ -111,7 +114,7 @@ class NotebookApp {
   // 5 - Update title
 
   updateTitle = async (id, title, date) => {
-    await fetch(`${noteApi}/${id}`, {
+    await fetch(`${sheetApi}/${id}`, {
       method: "PATCH",
       body: JSON.stringify({
         title: title,
@@ -126,7 +129,7 @@ class NotebookApp {
   // 6 - Save Note
 
   saveNote = async (id, note, date) => {
-    await fetch(`${noteApi}/${id}`, {
+    await fetch(`${sheetApi}/${id}`, {
       method: "PATCH",
       body: JSON.stringify({
         note: note,
@@ -151,7 +154,7 @@ app.fetchCard();
 // Toggle Selected note
 
 const onNoteSelect = (id) => {
-  console.log(id);
+  // console.log(id);
   noteBody.classList.remove("hidden");
   app.sidebarNotes.forEach((card) => {
     card.addEventListener("focus", () => {
@@ -170,19 +173,16 @@ const onNoteSelect = (id) => {
     if (id === app.selectedId) {
       console.log(app.selectedId);
       const updatedNote = textArea.value;
-    const noteUpdatedDate = new Date().toLocaleString({
-      weekday: "short",
-      month: "short",
-      day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-    app.saveNote(id, updatedNote, noteUpdatedDate);
+      const noteUpdatedDate = new Date().toLocaleString({
+        weekday: "short",
+        month: "short",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+      app.saveNote(id, updatedNote, noteUpdatedDate);
     }
-    
   });
-
-  
 };
 
 // Add Note event
