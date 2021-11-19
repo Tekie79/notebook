@@ -1,6 +1,5 @@
 const noteApi = " http://localhost:3000/notebook";
-const sheetApi =
-  "https://sheet.best/api/sheets/20169746-aeb6-4189-affd-1f63a4af89ff";
+const sheetApi = "https://sheetdb.io/api/v1/gkn02l70kt1ao";
 //Selectors
 const notebookContainer = document.querySelector(".notebook-sidebar");
 const textArea = document.querySelector(".note__text-area");
@@ -58,7 +57,7 @@ class NotebookApp {
     });
 
     // map the data to the card
-    const renderCards = this.data.map((note, index) => {
+    const renderCards = this.data.map((note) => {
       return ` <div class="sidebar-card" onclick="onNoteSelect(${note.Id})" tabindex="-1">
         <div class="sidebar-card__body">
           <h2>${note.title}</h2>
@@ -83,9 +82,9 @@ class NotebookApp {
   // 2 - On Note Selection
 
   fetchSelectedNote = async (id) => {
-    const noteData = await fetch(`${sheetApi}/Id/${id}`);
+    const noteData = await fetch(`${sheetApi}/search?Id=${id}`);
     const [noteResult] = await noteData.json();
-    console.log(id);
+
     textArea.value = noteResult.note;
     noteTitle.innerHTML = noteResult.title;
     this.selectedId = id;
@@ -93,7 +92,7 @@ class NotebookApp {
   // 3 - Add Note Method
 
   addNote = async (id, title, date) => {
-    await fetch(sheetApi, {
+    const newNoteData = await fetch(sheetApi, {
       method: "POST",
       body: JSON.stringify({
         Id: id,
@@ -108,6 +107,9 @@ class NotebookApp {
         "Content-type": "application/json; charset=UTF-8",
       },
     });
+
+    const newResult = await newNoteData.json();
+    console.log(newResult);
   };
 
   // 4 - Delete Note Method
