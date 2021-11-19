@@ -23,6 +23,13 @@ const saveBtn = document.querySelector(".note-save__btn");
 
 const pageBody = document.querySelector("body");
 
+// page reload
+const pageReload = () => {
+  setTimeout(() => {
+    window.location.reload();
+  }, 500);
+};
+
 // Main App
 
 class NotebookApp {
@@ -39,31 +46,30 @@ class NotebookApp {
 
   fetchCard = async () => {
     const response = await fetch(sheetApi);
-    
+
     const result = await response.json();
-    
-    // this.data = result.sort((a, b) => {
-    //   if (a.date > b.date) {
-    //     return -1;
-    //   } else if (a.date < b.date) {
-    //     return 1;
-    //   }
-    // });
+
+    this.data = result.sort((a, b) => {
+      if (a.date > b.date) {
+        return -1;
+      } else if (a.date < b.date) {
+        return 1;
+      }
+    });
 
     // map the data to the card
-    const renderCards =
-      result.map((note, index) => {
-        return ` <div class="sidebar-card" onclick="onNoteSelect(${index})" tabindex="-1">
+    const renderCards = this.data.map((note, index) => {
+      return ` <div class="sidebar-card" onclick="onNoteSelect(${note.Id})" tabindex="-1">
         <div class="sidebar-card__body">
           <h2>${note.title}</h2>
           <p>${note.date}</p>
         </div >
         
-        <i class="note-edit fas fa-pencil-alt" onclick="onToggleEdit(${index}, '${note.title}')"></i>
-        <i class="note-delete fas fa-trash-alt" onclick="onToggleDelete(${index})"></i></div>
+        <i class="note-edit fas fa-pencil-alt" onclick="onToggleEdit(${note.Id}, '${note.title}')"></i>
+        <i class="note-delete fas fa-trash-alt" onclick="onToggleDelete(${note.Id})"></i></div>
         
       </div>`;
-      });
+    });
 
     // Render to the DOM
     notebookContainer.innerHTML = renderCards.join();
@@ -77,19 +83,20 @@ class NotebookApp {
   // 2 - On Note Selection
 
   fetchSelectedNote = async (id) => {
-    const noteData = await fetch(`${sheetApi}/${id}`);
+    const noteData = await fetch(`${sheetApi}/Id/${id}`);
     const [noteResult] = await noteData.json();
-   
+    console.log(id);
     textArea.value = noteResult.note;
     noteTitle.innerHTML = noteResult.title;
     this.selectedId = id;
   };
   // 3 - Add Note Method
 
-  addNote = async (title, date) => {
+  addNote = async (id, title, date) => {
     await fetch(sheetApi, {
       method: "POST",
       body: JSON.stringify({
+        Id: id,
         title: title,
         date: date,
         note: "",
@@ -106,7 +113,7 @@ class NotebookApp {
   // 4 - Delete Note Method
 
   deleteNote = async (id) => {
-    await fetch(`${sheetApi}/${id}`, {
+    await fetch(`${sheetApi}/Id/${id}`, {
       method: "DELETE",
     });
   };
@@ -114,7 +121,7 @@ class NotebookApp {
   // 5 - Update title
 
   updateTitle = async (id, title, date) => {
-    await fetch(`${sheetApi}/${id}`, {
+    await fetch(`${sheetApi}/Id/${id}`, {
       method: "PATCH",
       body: JSON.stringify({
         title: title,
@@ -129,7 +136,7 @@ class NotebookApp {
   // 6 - Save Note
 
   saveNote = async (id, note, date) => {
-    await fetch(`${sheetApi}/${id}`, {
+    await fetch(`${sheetApi}/Id/${id}`, {
       method: "PATCH",
       body: JSON.stringify({
         note: note,
@@ -215,6 +222,7 @@ addBtn.addEventListener("click", () => {
 // Create New Note
 
 createBtn.addEventListener("click", () => {
+  const newId = Date.now();
   const newNoteTitle = newNoteInput.value;
   const createdDate = new Date().toLocaleString({
     weekday: "short",
@@ -223,11 +231,15 @@ createBtn.addEventListener("click", () => {
     hour: "2-digit",
     minute: "2-digit",
   });
-  app.addNote(newNoteTitle, createdDate);
+  app.addNote(newId, newNoteTitle, createdDate);
 
   noteBody.classList.remove("hidden");
   textArea.focus();
   app.sidebarNotes[0].classList.add("note-selected");
+
+  // refresh page
+
+  pageReload();
 });
 
 // DELETE A NOTE
@@ -240,6 +252,9 @@ const onToggleDelete = (id) => {
   // Delete Event
   deleteYesBtn.addEventListener("click", () => {
     app.deleteNote(id);
+
+    // refresh page
+    pageReload();
   });
 };
 
@@ -263,6 +278,8 @@ const onToggleEdit = (id, title) => {
       minute: "2-digit",
     });
     app.updateTitle(id, updatedTitle, updatedDate);
+    // refresh page
+    pageReload();
   });
 };
 
