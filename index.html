@@ -22,8 +22,8 @@
       </div>
       <div class="notebook-header__title"><h1>Your Notebook</h1></div>
       <div class="ui slider checkbox">
-        <input type="checkbox" name="public" />
-        <label>Dark Mode</label>
+        <input type="checkbox" name="public" id="dark-mode" />
+        <label class="dark-mode__label">Dark Mode</label>
       </div>
     </header>
 
@@ -35,27 +35,35 @@
         <div class="notebook-body__tools">
           <div class="font-family">
             <select name="font-family" id="font-family">
-              <option value="san-serif">San-serif</option>
-              <option value="san-serif">San-serif</option>
-              <option value="san-serif">San-serif</option>
-              <option value="san-serif">San-serif</option>
+              <option value="sans-serif">San-serif</option>
+              <option value="serif">Serif</option>
+              <option value="cursive">Cursive</option>
+              <option value="system-ui">System UI</option>
+              <option value="monospace">Monospace</option>
+              <option value="fantasy">Fantasy</option>
             </select>
           </div>
           <div class="font-size">
             <select name="font-size" id="font-size">
-              <option value="12">12</option>
-              <option value="14">14</option>
-              <option value="16" selected>16</option>
-              <option value="18">18</option>
-              <option value="20">20</option>
-              <option value="22">22</option>
-              <option value="24">24</option>
+              <option value="12px">12</option>
+              <option value="14px">14</option>
+              <option value="16px" selected>16</option>
+              <option value="18px">18</option>
+              <option value="20px">20</option>
+              <option value="22px">22</option>
+              <option value="24px">24</option>
+              <option value="28px">28</option>
+              <option value="32px">32</option>
+              <option value="36px">36</option>
             </select>
           </div>
           <div class="body-note__save">
             <button class="note-save__btn">Save</button>
           </div>
-          <i class="note-share fas fa-share"></i>
+          <div>
+            <i class="note-share fas fa-share"></i>
+          </div>
+          
         </div>
         <div class="notebook__text-field">
           <textarea

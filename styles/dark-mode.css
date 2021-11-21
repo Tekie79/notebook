@@ -1,0 +1,28 @@
+.dark-mode-1 {
+  background-color: rgb(28, 28, 29);
+  color: rgb(238, 238, 238);
+}
+.dark-mode-2 {
+  background-color: rgb(43, 43, 44);
+  color: #49c5a6;
+}
+.dark-mode__note {
+  background-color: rgb(42, 43, 43);
+  color: #f8f8f8;
+  border-color: rgb(61, 61, 61);
+  border-radius: 10px;
+}
+.dark-mode__title {
+  color: #49c5a6;
+}
+
+.dark-mode__tools {
+  background-color: rgb(28, 28, 29);
+  color: #ffffff;
+  border-color: rgb(85, 84, 84);
+}
+.dark-mode__inputs {
+  background-color: rgb(43, 43, 44);
+  color: #ffffff;
+  border-color: #49c5a6;
+}

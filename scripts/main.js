@@ -1,6 +1,5 @@
 const noteApi = " http://localhost:3000/notebook";
-const sheetApi =
-  "https://sheet.best/api/sheets/20169746-aeb6-4189-affd-1f63a4af89ff";
+const darkModeApi = "http://localhost:3000/dark";
 //Selectors
 const notebookContainer = document.querySelector(".notebook-sidebar");
 const textArea = document.querySelector(".note__text-area");
@@ -20,15 +19,24 @@ const editInput = document.querySelector(".edit-note__input");
 const editCancel = document.querySelector(".edit-cancel");
 const editSave = document.querySelector(".edit-save");
 const saveBtn = document.querySelector(".note-save__btn");
+const shareBtn = document.querySelector(".note-share");
+// select options
+const fontFamily = document.querySelector("#font-family");
+const fontSize = document.querySelector("#font-size");
 
 const pageBody = document.querySelector("body");
 
+//
+const darkModeToggler = document.querySelector("#dark-mode");
+const notebookHeader = document.querySelector(".notebook-header");
+const notebookHeaderTitle = document.querySelector(".notebook-header__title");
+const notebookTools = document.querySelector(".notebook-body__tools");
 // page reload
-const pageReload = () => {
-  setTimeout(() => {
-    window.location.reload();
-  }, 500);
-};
+// const pageReload = () => {
+//   setTimeout(() => {
+//     window.location.reload();
+//   }, 500);
+// };
 
 // Main App
 
@@ -38,6 +46,7 @@ class NotebookApp {
     this.selected = false;
     this.sidebarNotes;
     this.selectedId;
+    this.selectedFontSize = "16px";
   }
 
   // Methods
@@ -45,34 +54,32 @@ class NotebookApp {
   // 1 - Fetch Notebook title and date to the Sidebar card.
 
   fetchCard = async () => {
-    const response = await fetch(sheetApi);
+    const response = await fetch(noteApi);
 
     const result = await response.json();
 
     this.data = result.sort((a, b) => {
-      if (a.date > b.date) {
-        return -1;
-      } else if (a.date < b.date) {
-        return 1;
-      }
+      return new Date(b.date) - new Date(a.date);
     });
 
     // map the data to the card
-    const renderCards = this.data.map((note, index) => {
-      return ` <div class="sidebar-card" onclick="onNoteSelect(${note.Id})" tabindex="-1">
+    const renderCards =
+      this.data &&
+      this.data.map((note) => {
+        return ` <div class="sidebar-card" onclick="onNoteSelect(${note.id})" tabindex="-1">
         <div class="sidebar-card__body">
           <h2>${note.title}</h2>
           <p>${note.date}</p>
         </div >
         
-        <i class="note-edit fas fa-pencil-alt" onclick="onToggleEdit(${note.Id}, '${note.title}')"></i>
-        <i class="note-delete fas fa-trash-alt" onclick="onToggleDelete(${note.Id})"></i></div>
+        <i class="note-edit fas fa-pencil-alt" onclick="onToggleEdit(${note.id}, '${note.title}')"></i>
+        <i class="note-delete fas fa-trash-alt" onclick="onToggleDelete(${note.id})"></i></div>
         
       </div>`;
-    });
+      });
 
     // Render to the DOM
-    notebookContainer.innerHTML = renderCards.join();
+    notebookContainer.innerHTML = renderCards.join("");
     const sidebarCard = notebookContainer.querySelectorAll(".sidebar-card");
 
     // Convert NodeList to Array
@@ -83,17 +90,36 @@ class NotebookApp {
   // 2 - On Note Selection
 
   fetchSelectedNote = async (id) => {
-    const noteData = await fetch(`${sheetApi}/Id/${id}`);
-    const [noteResult] = await noteData.json();
-    console.log(id);
+    const noteData = await fetch(`${noteApi}/${id}`);
+    const noteResult = await noteData.json();
+    // console.log(id);
     textArea.value = noteResult.note;
     noteTitle.innerHTML = noteResult.title;
     this.selectedId = id;
+    textArea.style.fontSize = noteResult.fontSize;
+    textArea.style.fontFamily = noteResult.fontFamily;
+
+    // display selected font-size to the ui
+    const fontSizeOptions = fontSize.options;
+    for (let size, i = 0; (size = fontSizeOptions[i]); i++) {
+      if (size.value == noteResult.fontSize) {
+        fontSize.selectedIndex = i;
+        break;
+      }
+    }
+
+    // display selected font-family to the ui
+    const fontFamilyOptions = fontFamily.options;
+    for (let family, j = 0; (family = fontFamilyOptions[j]); j++) {
+      if (family.value == noteResult.fontFamily) {
+        fontFamily.selectedIndex = j;
+      }
+    }
   };
   // 3 - Add Note Method
 
   addNote = async (id, title, date) => {
-    await fetch(sheetApi, {
+    await fetch(noteApi, {
       method: "POST",
       body: JSON.stringify({
         Id: id,
@@ -101,7 +127,7 @@ class NotebookApp {
         date: date,
         note: "",
         selected: true,
-        fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+        fontFamily: "sans-serif",
         fontSize: "16px",
       }),
       headers: {
@@ -113,7 +139,7 @@ class NotebookApp {
   // 4 - Delete Note Method
 
   deleteNote = async (id) => {
-    await fetch(`${sheetApi}/Id/${id}`, {
+    await fetch(`${noteApi}/${id}`, {
       method: "DELETE",
     });
   };
@@ -121,7 +147,7 @@ class NotebookApp {
   // 5 - Update title
 
   updateTitle = async (id, title, date) => {
-    await fetch(`${sheetApi}/Id/${id}`, {
+    await fetch(`${noteApi}/${id}`, {
       method: "PATCH",
       body: JSON.stringify({
         title: title,
@@ -135,12 +161,14 @@ class NotebookApp {
 
   // 6 - Save Note
 
-  saveNote = async (id, note, date) => {
-    await fetch(`${sheetApi}/Id/${id}`, {
+  saveNote = async (id, note, date, size, family) => {
+    await fetch(`${noteApi}/${id}`, {
       method: "PATCH",
       body: JSON.stringify({
         note: note,
         date: date,
+        fontFamily: family,
+        fontSize: size,
       }),
       headers: {
         "Content-type": "application/json; charset=UTF-8",
@@ -178,7 +206,6 @@ const onNoteSelect = (id) => {
   app.fetchSelectedNote(id);
   saveBtn.addEventListener("click", () => {
     if (id === app.selectedId) {
-      console.log(app.selectedId);
       const updatedNote = textArea.value;
       const noteUpdatedDate = new Date().toLocaleString({
         weekday: "short",
@@ -187,7 +214,15 @@ const onNoteSelect = (id) => {
         hour: "2-digit",
         minute: "2-digit",
       });
-      app.saveNote(id, updatedNote, noteUpdatedDate);
+      const newFontSize = fontSize.value;
+      const newFontFamily = fontFamily.value;
+      app.saveNote(
+        id,
+        updatedNote,
+        noteUpdatedDate,
+        newFontSize,
+        newFontFamily
+      );
     }
   });
 };
@@ -239,7 +274,7 @@ createBtn.addEventListener("click", () => {
 
   // refresh page
 
-  pageReload();
+  // pageReload();
 });
 
 // DELETE A NOTE
@@ -254,7 +289,7 @@ const onToggleDelete = (id) => {
     app.deleteNote(id);
 
     // refresh page
-    pageReload();
+    // pageReload();
   });
 };
 
@@ -279,8 +314,109 @@ const onToggleEdit = (id, title) => {
     });
     app.updateTitle(id, updatedTitle, updatedDate);
     // refresh page
-    pageReload();
+    // pageReload();
   });
 };
 
 // Save note
+
+// font-size
+fontSize.addEventListener("change", () => {
+  textArea.style.fontSize = fontSize.value;
+});
+
+// font-family
+fontFamily.addEventListener("change", () => {
+  textArea.style.fontFamily = fontFamily.value;
+});
+
+// Dark-Mode
+
+// Dark Mode toggling
+
+const onToggleDarkMode = () => {
+  if (darkModeToggler.checked) {
+    pageBody.classList.add("dark-mode-1");
+    app.sidebarNotes &&
+      app.sidebarNotes.forEach((card) => {
+        card.classList.add("dark-mode-2");
+      });
+    notebookHeader.classList.add("dark-mode-2");
+    notebookHeaderTitle.classList.add("dark-mode__title");
+    notebookTools.classList.add("dark-mode__tools");
+    textArea.classList.add("dark-mode__note");
+    fontFamily.classList.add("dark-mode__inputs");
+    fontSize.classList.add("dark-mode__inputs");
+    saveBtn.classList.add("dark-mode__inputs");
+    newNoteModal.classList.add("dark-mode__inputs");
+    editModal.classList.add("dark-mode__inputs");
+    deleteModal.classList.add("dark-mode__inputs");
+    newNoteInput.classList.add("dark-mode__inputs");
+    editInput.classList.add("dark-mode__inputs");
+  } else {
+    pageBody.classList.remove("dark-mode-1");
+    app.sidebarNotes &&
+      app.sidebarNotes.forEach((card) => {
+        card.classList.remove("dark-mode-2");
+      });
+    notebookHeader.classList.remove("dark-mode-2");
+    notebookHeaderTitle.classList.remove("dark-mode__title");
+    notebookTools.classList.remove("dark-mode__tools");
+    textArea.classList.remove("dark-mode__note");
+    fontFamily.classList.remove("dark-mode__inputs");
+    fontSize.classList.remove("dark-mode__inputs");
+    saveBtn.classList.remove("dark-mode__inputs");
+    newNoteModal.classList.remove("dark-mode__inputs");
+    editModal.classList.remove("dark-mode__inputs");
+    deleteModal.classList.remove("dark-mode__inputs");
+    newNoteInput.classList.remove("dark-mode__inputs");
+    editInput.classList.remove("dark-mode__inputs");
+  }
+};
+
+// dark mode Api
+const fetchDarkMode = async () => {
+  const darkResponse = await fetch(darkModeApi);
+  const darkResult = await darkResponse.json();
+  darkModeToggler.checked = darkResult.darkMode;
+  onToggleDarkMode();
+};
+
+// Update Dark-mode Api
+
+const updateDarkMode = async (checked) => {
+  await fetch(darkModeApi, {
+    method: "PATCH",
+    body: JSON.stringify({
+      darkMode: checked,
+    }),
+    headers: {
+      "Content-type": "application/json; charset=UTF-8",
+    },
+  });
+};
+
+// Toogle Dark-mode
+
+darkModeToggler.addEventListener("change", () => {
+  onToggleDarkMode();
+  updateDarkMode(darkModeToggler.checked);
+});
+fetchDarkMode();
+
+// Share Note
+
+const shareData = {
+  title: noteTitle.innerHTML,
+  text: textArea.value,
+  url: "",
+};
+
+shareBtn.addEventListener("click", async () => {
+  if (navigator.share)
+    try {
+      await navigator.share(shareData);
+    } catch (error) {
+      alert(`Error: ${error}`);
+    }
+});

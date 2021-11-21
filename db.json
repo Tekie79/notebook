@@ -2,30 +2,43 @@
   "notebook": [
     {
       "id": 1,
-      "title": "Java script101",
-      "date": "11/13/2021, 6:47:43 PM",
+      "title": "Java script 101",
+      "date": "11/20/2021, 10:13:15 PM",
       "note": "JavaScript (JS) is a lightweight, interpreted, or just-in-time compiled programming language with first-class functions. While it is most well-known as the scripting language for Web pages, many non-browser environments also use it, such as Node.js, Apache CouchDB and Adobe Acrobat. JavaScript is a prototype-based, multi-paradigm, single-threaded, dynamic language, supporting object-oriented, imperative, and declarative (e.g. functional programming) styles. Read more about JavaScript.",
       "selected": true,
-      "fontFamily": "Tahoma",
-      "fontSize": "16px"
+      "fontFamily": "system-ui",
+      "fontSize": "22px"
     },
     {
       "id": 2,
-      "title": "React JS Intro",
-      "date": "11/13/2021, 5:15:31 PM",
+      "title": "React JS",
+      "date": "11/20/2021, 10:25:38 PM",
       "note": "React makes it painless to create interactive UIs. Design simple views for each state in your application, and React will efficiently update and render just the right components when your data changes.",
       "selected": true,
-      "fontFamily": "Tahoma",
-      "fontSize": "16px"
+      "fontFamily": "monospace",
+      "fontSize": "22px"
     },
     {
       "title": "Save event issue",
-      "date": "11/13/2021, 6:53:24 PM",
-      "note": "now save note is working. the issue was save button event passes multiple ids.\nthe issue is solved by saving the id inside the class and getting is back inside the function and comparing it with the id. if the id matches, pass the selected id to update the new note(Save)",
+      "date": "11/20/2021, 10:19:04 PM",
+      "note": "Now save note is working. the issue was save button event passes multiple ids.\nthe issue is solved by saving the id inside the class and getting is back inside the function and comparing it with the id. if the id matches, pass the selected id to update the new note(Save)",
       "selected": true,
-      "fontFamily": "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-      "fontSize": "16px",
+      "fontFamily": "cursive",
+      "fontSize": "24px",
       "id": 3
+    },
+    {
+      "Id": 1637394021921,
+      "title": "App Testing",
+      "date": "11/20/2021, 10:25:58 PM",
+      "note": "Hello, I am testing my new notebook app. There is one bug. Selection style is not properly appearing while selecting a note.\n\nOther features to add:\n*Share note\n*Dark Mode",
+      "selected": true,
+      "fontFamily": "monospace",
+      "fontSize": "22px",
+      "id": 4
     }
-  ]
+  ],
+  "dark": {
+    "darkMode": true
+  }
 }
