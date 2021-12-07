@@ -23,3 +23,14 @@
     color: white;
     text-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
 }
+@media (max-width: 690px){
+    .notebook-header{
+        padding: 30px 15px;
+        gap: 20px;
+       
+    }
+    .add-note__btn{
+        font-size: 14px;
+        padding: 5px 5px;
+    }
+}

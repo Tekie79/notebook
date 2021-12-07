@@ -4,7 +4,7 @@
   margin-top: 70px;
   padding-right: 40px;
   height: 100vh;
-
+justify-content: center;
   overflow: auto;
 }
 .sidebar-card {
@@ -51,4 +51,8 @@
 
 .card-icons {
   display: flex;
+}
+
+.sidebar-hide{
+  display: hidden;
 }

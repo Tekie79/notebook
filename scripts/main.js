@@ -32,11 +32,11 @@ const notebookHeader = document.querySelector(".notebook-header");
 const notebookHeaderTitle = document.querySelector(".notebook-header__title");
 const notebookTools = document.querySelector(".notebook-body__tools");
 // page reload
-// const pageReload = () => {
-//   setTimeout(() => {
-//     window.location.reload();
-//   }, 500);
-// };
+const pageReload = () => {
+  setTimeout(() => {
+    window.location.reload();
+  }, 500);
+};
 
 // Main App
 
@@ -62,30 +62,31 @@ class NotebookApp {
       return new Date(b.date) - new Date(a.date);
     });
 
-    // map the data to the card
     const renderCards =
       this.data &&
       this.data.map((note) => {
-        return ` <div class="sidebar-card" onclick="onNoteSelect(${note.id})" tabindex="-1">
-        <div class="sidebar-card__body">
-          <h2>${note.title}</h2>
-          <p>${note.date}</p>
-        </div >
-        
-        <i class="note-edit fas fa-pencil-alt" onclick="onToggleEdit(${note.id}, '${note.title}')"></i>
-        <i class="note-delete fas fa-trash-alt" onclick="onToggleDelete(${note.id})"></i></div>
-        
-      </div>`;
+        return ` <div class="sidebar-card" onclick="onNoteSelect(${note.id})" tabindex="-1" data-id = ${note.id}>
+  <div class="sidebar-card__body">
+    <h2>${note.title}</h2>
+    <p>${note.date}</p>
+  </div >
+  
+  <i class="note-edit fas fa-pencil-alt" onclick="onToggleEdit(${note.id}, '${note.title}')"></i>
+  <i class="note-delete fas fa-trash-alt" onclick="onToggleDelete(${note.id})"></i></div>
+  
+</div>`;
       });
 
     // Render to the DOM
-    notebookContainer.innerHTML = renderCards.join("");
+    notebookContainer.innerHTML = this.data && renderCards.join("");
     const sidebarCard = notebookContainer.querySelectorAll(".sidebar-card");
 
     // Convert NodeList to Array
     const sidebarCardsArray = Array.from(sidebarCard);
     this.sidebarNotes = sidebarCardsArray;
   };
+
+  // Render Method
 
   // 2 - On Note Selection
 
@@ -115,6 +116,16 @@ class NotebookApp {
         fontFamily.selectedIndex = j;
       }
     }
+
+    // Style Selection
+
+    this.sidebarNotes.forEach((card) => {
+      if (card.getAttribute("data-id") == id) {
+        card.classList.add("note-selected");
+      } else {
+        card.classList.remove("note-selected");
+      }
+    });
   };
   // 3 - Add Note Method
 
@@ -189,22 +200,16 @@ app.fetchCard();
 // Toggle Selected note
 
 const onNoteSelect = (id) => {
-  // console.log(id);
   noteBody.classList.remove("hidden");
-  app.sidebarNotes.forEach((card) => {
-    card.addEventListener("focus", () => {
-      card.classList.add("note-selected");
-      // Save event to the note
-    });
-    card.addEventListener("blur", () => {
-      card.classList.remove("note-selected");
-    });
-  });
+
   // Window
   window.scrollTo(0, 0);
   //fetch
   app.fetchSelectedNote(id);
-  saveBtn.addEventListener("click", () => {
+
+  // save note function
+
+  const onSaveNote = () => {
     if (id === app.selectedId) {
       const updatedNote = textArea.value;
       const noteUpdatedDate = new Date().toLocaleString({
@@ -224,6 +229,12 @@ const onNoteSelect = (id) => {
         newFontFamily
       );
     }
+  };
+  saveBtn.addEventListener("click", () => {
+    onSaveNote();
+  });
+  textArea.addEventListener("blur", () => {
+    onSaveNote();
   });
 };
 
@@ -274,7 +285,7 @@ createBtn.addEventListener("click", () => {
 
   // refresh page
 
-  // pageReload();
+  pageReload();
 });
 
 // DELETE A NOTE
@@ -289,7 +300,7 @@ const onToggleDelete = (id) => {
     app.deleteNote(id);
 
     // refresh page
-    // pageReload();
+    pageReload();
   });
 };
 
@@ -314,7 +325,7 @@ const onToggleEdit = (id, title) => {
     });
     app.updateTitle(id, updatedTitle, updatedDate);
     // refresh page
-    // pageReload();
+    pageReload();
   });
 };
 
@@ -420,3 +431,22 @@ shareBtn.addEventListener("click", async () => {
       alert(`Error: ${error}`);
     }
 });
+
+// Small screen responsive 690px
+
+const responsivePage = (size) => {
+  if (size.matches) {
+    console.log("small screen");
+    notebookContainer.style.width = "80%";
+    noteBody.style.width = "0%";
+    // onClick
+  } else {
+    notebookContainer.style.width = "360px";
+    noteBody.style.width = "75%";
+  }
+};
+
+let maxSize = window.matchMedia("(max-width: 690px)");
+
+responsivePage(maxSize);
+maxSize.addEventListener("change", responsivePage);

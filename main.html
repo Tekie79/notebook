@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Notebook App</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css"
+    />
+    <link rel="stylesheet" href="styles/main.css" />
+  </head>
+  <body>
+    <header class="notebook-header">
+      <div class="add-note">
+        <button class="add-note__btn">Add Note</button>
+      </div>
+      <div class="notebook-header__title"><h1>Your Notebook</h1></div>
+      <div class="ui slider checkbox">
+        <input type="checkbox" name="public" id="dark-mode" />
+        <label class="dark-mode__label">Dark Mode</label>
+      </div>
+    </header>
+
+    <section class="notebook-container">
+      <div class="notebook-sidebar"></div>
+
+      <div class="notebook-body hidden">
+        <h2 class="note-body__title"></h2>
+        <div class="notebook-body__tools">
+          <div class="font-family">
+            <select name="font-family" id="font-family">
+              <option value="sans-serif">San-serif</option>
+              <option value="serif">Serif</option>
+              <option value="cursive">Cursive</option>
+              <option value="system-ui">System UI</option>
+              <option value="monospace">Monospace</option>
+              <option value="fantasy">Fantasy</option>
+            </select>
+          </div>
+          <div class="font-size">
+            <select name="font-size" id="font-size">
+              <option value="12px">12</option>
+              <option value="14px">14</option>
+              <option value="16px" selected>16</option>
+              <option value="18px">18</option>
+              <option value="20px">20</option>
+              <option value="22px">22</option>
+              <option value="24px">24</option>
+              <option value="28px">28</option>
+              <option value="32px">32</option>
+              <option value="36px">36</option>
+            </select>
+          </div>
+          <div class="body-note__save">
+            <button class="note-save__btn">Save</button>
+          </div>
+          <div>
+            <i class="note-share fas fa-share"></i>
+          </div>
+        </div>
+        <div class="notebook__text-field">
+          <textarea
+            name="notepad"
+            id="notepad"
+            class="note__text-area"
+            placeholder="Write something..."
+          ></textarea>
+        </div>
+      </div>
+    </section>
+    <div class="modal-bg modal-hide"></div>
+    <div class="add-note__modal modal-hide">
+      <input class="add-note__input" type="text" value="Untitled Note" />
+      <div class="modal-btns">
+        <button class="btn-modal modal-cancel">Cancel</button>
+        <button class="btn-modal modal-save">Create</button>
+      </div>
+    </div>
+    <!-- delete Modal -->
+    <div class="delete-note__modal modal-hide">
+      <h3>Are you sure you want to delete this note?</h3>
+      <div class="modal-btns">
+        <button class="btn-modal modal-no">No</button>
+        <button class="btn-modal modal-yes">Yes</button>
+      </div>
+    </div>
+
+    <!-- Edit title Modal -->
+
+    <div class="edit-note__modal modal-hide">
+      <input class="edit-note__input" type="text" />
+      <div class="modal-btns">
+        <button class="btn-modal edit-cancel">Cancel</button>
+        <button class="btn-modal edit-save">Save</button>
+      </div>
+    </div>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script> -->
+    <script src="./scripts/main.js"></script>
+  </body>
+</html>

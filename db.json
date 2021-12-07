@@ -12,17 +12,17 @@
     {
       "id": 2,
       "title": "React JS",
-      "date": "11/20/2021, 10:25:38 PM",
+      "date": "11/26/2021, 9:38:08 PM",
       "note": "React makes it painless to create interactive UIs. Design simple views for each state in your application, and React will efficiently update and render just the right components when your data changes.",
-      "selected": true,
+      "selected": false,
       "fontFamily": "monospace",
       "fontSize": "22px"
     },
     {
       "title": "Save event issue",
-      "date": "11/20/2021, 10:19:04 PM",
+      "date": "11/27/2021, 4:11:03 PM",
       "note": "Now save note is working. the issue was save button event passes multiple ids.\nthe issue is solved by saving the id inside the class and getting is back inside the function and comparing it with the id. if the id matches, pass the selected id to update the new note(Save)",
-      "selected": true,
+      "selected": false,
       "fontFamily": "cursive",
       "fontSize": "24px",
       "id": 3
@@ -30,9 +30,9 @@
     {
       "Id": 1637394021921,
       "title": "App Testing",
-      "date": "11/20/2021, 10:25:58 PM",
-      "note": "Hello, I am testing my new notebook app. There is one bug. Selection style is not properly appearing while selecting a note.\n\nOther features to add:\n*Share note\n*Dark Mode",
-      "selected": true,
+      "date": "12/6/2021, 8:24:29 PM",
+      "note": "Hello, I am testing my new notebook app. There is one bug. Selection style is not properly appearing while selecting a note.\n\nOther features to add:\n*Share note --- done\n*Dark Mode --- done\n*Responsive --- partially done.\n\nSelecting note issue is solved finally!\nby passing the id through html data attribute and getting the value in JS using \"getAttribute\" method.",
+      "selected": false,
       "fontFamily": "monospace",
       "fontSize": "22px",
       "id": 4
@@ -40,5 +40,8 @@
   ],
   "dark": {
     "darkMode": true
+  },
+  "pass": {
+    "phone": 5713088308
   }
 }
