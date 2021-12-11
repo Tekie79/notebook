@@ -3,7 +3,7 @@
   justify-content: center;
   background-color: #39a388;
   padding: 20px 100px;
-  width: 100%;
+  width: 100vw;
   align-items: center;
 }
 .login-card {
@@ -18,39 +18,44 @@
   gap: 10px;
   border-radius: 10px;
   align-items: center;
-  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
 }
 .login-card input,
 .btn-login {
-    width: 100%;
+  width: 100%;
   font-size: 20px;
   padding: 10px 20px;
   outline: none;
   border: none;
   border-radius: 10px;
 }
-.btn-login{
-    font-size: 26px;
-    cursor: pointer;
+.btn-login {
+  font-size: 26px;
+  cursor: pointer;
 }
-.btn-login:hover{
-    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+.btn-login:hover {
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
 }
-.home-footer{
-    background-color: #39a388;
-    width: 100vw;
-    color: white;
-    padding: 30px;
-    position: fixed;
-    bottom: 0;
+.home-footer {
+  background-color: #39a388;
+  width: 100vw;
+  color: white;
+  padding: 30px;
+  position: fixed;
+  bottom: 0;
 }
-.home-footer p{
-    text-align: center;
+.home-footer p {
+  text-align: center;
 }
 
-.error-msg{
-    color: red;
+.error-msg {
+  color: red;
 }
-.err-hide{
-    display: none;
+.err-hide {
+  display: none;
+}
+@media (max-width: 550px) {
+  .login-card {
+    width: 80%;
+  }
 }
