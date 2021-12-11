@@ -40,9 +40,7 @@ const notebookTools = document.querySelector(".notebook-body__tools");
 // page reload
 
 const refresh = () => {
-  setTimeout(() => {
-    app.fetchCard();
-  }, 500);
+  fetchDarkMode();
 };
 
 // Main App
@@ -90,8 +88,9 @@ class NotebookApp {
     const sidebarCard = notebookContainer.querySelectorAll(".sidebar-card");
 
     // Convert NodeList to Array
-    const sidebarCardsArray = Array.from(sidebarCard);
-    this.sidebarNotes = sidebarCardsArray;
+
+    this.sidebarNotes = Array.from(sidebarCard);
+    console.log("cards fetched", this.sidebarNotes);
   };
 
   // Render Method
@@ -146,11 +145,14 @@ class NotebookApp {
       fontFamily: "sans-serif",
       fontSize: "16px",
     };
-    await fetch(
+    const newNote = await fetch(
       `${apiUrl}?action=insert&table=${noteSheet}&data=${JSON.stringify(
         objData
       )}`
     );
+
+    const { data } = await newNote.json();
+    // this.data = [...this.data, data];
   };
 
   // 4 - Delete Note Method
@@ -199,7 +201,6 @@ class NotebookApp {
 const app = new NotebookApp();
 
 // Fetch Notebook
-app.fetchCard();
 
 // // //
 
@@ -303,7 +304,7 @@ const onToggleDelete = (id) => {
   // Delete Event
   deleteYesBtn.addEventListener("click", () => {
     app.deleteNote(id);
-
+    noteTitle.innerHTML = "";
     // refresh page
     refresh();
   });
@@ -394,9 +395,10 @@ const onToggleDarkMode = () => {
 const fetchDarkMode = async () => {
   const darkResponse = await fetch(`${apiUrl}?action=read&table=dark`);
   const { data } = await darkResponse.json();
-
+  await app.fetchCard();
   darkModeToggler.checked = data[0].darkMode;
   onToggleDarkMode();
+  console.log("dark mode");
 };
 
 // Update Dark-mode Api
@@ -454,6 +456,4 @@ let maxSize = window.matchMedia("(max-width: 690px)");
 responsivePage(maxSize);
 maxSize.addEventListener("change", responsivePage);
 
-window.addEventListener("load", () => {
-  fetchDarkMode();
-});
+fetchDarkMode();

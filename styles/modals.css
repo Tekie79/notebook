@@ -96,7 +96,14 @@
   .add-note__modal,
   .delete-note__modal,
   .edit-note__modal {
-    left: 5%;
-    width: 450px;
+    left: 4%;
+    width: 330px;
+  }
+  .add-note__input,
+  .edit-note__input {
+    width: 280px;
+  }
+  .delete-note__modal {
+    gap: 10px;
   }
 }

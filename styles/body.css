@@ -11,7 +11,7 @@
 
 .notebook-body__tools {
   display: flex;
-  
+
   padding: 30px 20px;
   height: 30px;
   width: 100%;
@@ -70,21 +70,46 @@
   margin-left: 5px;
 }
 
-@media (max-width: 800px){
-  .note-share{
-    position:static;
+@media (max-width: 800px) {
+  .note-share {
+    position: static;
     transform: translateX(10px);
   }
 }
-@media (max-width: 690px){
-  .note__text-area{
-    width: 90vw;
+@media (max-width: 670px) {
+  .note__text-area {
+    width: 95vw;
     margin-right: 20px;
   }
-  .notebook-body__tools{
-    width: 90vw;
+  .notebook-body__tools {
+    width: 95vw;
   }
-  .note-body__title{
+  .note-body__title {
     width: 100vw;
+  }
+  .note-share {
+    transform: translateX(20px);
+    /* display: none; */
+  }
+  .font-family select {
+    width: 140px;
+  }
+  .note-save__btn {
+    font-size: 14px;
+    margin-left: 20px;
+  }
+  .notebook-body {
+    margin-left: 40px;
+  }
+}
+
+@media (max-width: 350px) {
+  .note-share {
+    transform: translateX(10px);
+    /* display: none; */
+  }
+  .note-save__btn {
+    font-size: 14px;
+    margin-left: 10px;
   }
 }

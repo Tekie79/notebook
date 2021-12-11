@@ -56,3 +56,9 @@ justify-content: center;
 .sidebar-hide{
   display: hidden;
 }
+@media (max-width: 690px){
+  
+  .notebook-sidebar{
+    transform: translateX(35px);
+  }
+}
