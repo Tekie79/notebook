@@ -1,5 +1,11 @@
 const noteApi = " http://localhost:3000/notebook";
 const darkModeApi = "http://localhost:3000/dark";
+
+const apiUrl =
+  "https://script.google.com/macros/s/AKfycbypWYG3Dbw1eziCA-kdMw0U1s0YG5NLMp0vbSQKc6Q242msTIhjEmKd_YPIG6K4qNT0rw/exec";
+const noteSheet = "notebook";
+const darkModeSheet = "dark";
+
 //Selectors
 const notebookContainer = document.querySelector(".notebook-sidebar");
 const textArea = document.querySelector(".note__text-area");
@@ -32,9 +38,10 @@ const notebookHeader = document.querySelector(".notebook-header");
 const notebookHeaderTitle = document.querySelector(".notebook-header__title");
 const notebookTools = document.querySelector(".notebook-body__tools");
 // page reload
-const pageReload = () => {
+
+const refresh = () => {
   setTimeout(() => {
-    window.location.reload();
+    app.fetchCard();
   }, 500);
 };
 
@@ -54,11 +61,12 @@ class NotebookApp {
   // 1 - Fetch Notebook title and date to the Sidebar card.
 
   fetchCard = async () => {
-    const response = await fetch(noteApi);
+    const response = await fetch(`${apiUrl}?action=read&table=${noteSheet}`);
 
     const result = await response.json();
+    const resultArray = result.data;
 
-    this.data = result.sort((a, b) => {
+    this.data = resultArray.sort((a, b) => {
       return new Date(b.date) - new Date(a.date);
     });
 
@@ -66,14 +74,14 @@ class NotebookApp {
       this.data &&
       this.data.map((note) => {
         return ` <div class="sidebar-card" onclick="onNoteSelect(${note.id})" tabindex="-1" data-id = ${note.id}>
-  <div class="sidebar-card__body">
-    <h2>${note.title}</h2>
-    <p>${note.date}</p>
-  </div >
-  
-  <i class="note-edit fas fa-pencil-alt" onclick="onToggleEdit(${note.id}, '${note.title}')"></i>
-  <i class="note-delete fas fa-trash-alt" onclick="onToggleDelete(${note.id})"></i></div>
-  
+<div class="sidebar-card__body">
+<h2>${note.title}</h2>
+<p>${note.date}</p>
+</div >
+
+<i class="note-edit fas fa-pencil-alt" onclick="onToggleEdit(${note.id}, '${note.title}')"></i>
+<i class="note-delete fas fa-trash-alt" onclick="onToggleDelete(${note.id})"></i></div>
+
 </div>`;
       });
 
@@ -91,9 +99,8 @@ class NotebookApp {
   // 2 - On Note Selection
 
   fetchSelectedNote = async (id) => {
-    const noteData = await fetch(`${noteApi}/${id}`);
-    const noteResult = await noteData.json();
-    // console.log(id);
+    const noteResult = this.data.filter((note) => id === note.id)[0];
+
     textArea.value = noteResult.note;
     noteTitle.innerHTML = noteResult.title;
     this.selectedId = id;
@@ -130,61 +137,60 @@ class NotebookApp {
   // 3 - Add Note Method
 
   addNote = async (id, title, date) => {
-    await fetch(noteApi, {
-      method: "POST",
-      body: JSON.stringify({
-        Id: id,
-        title: title,
-        date: date,
-        note: "",
-        selected: true,
-        fontFamily: "sans-serif",
-        fontSize: "16px",
-      }),
-      headers: {
-        "Content-type": "application/json; charset=UTF-8",
-      },
-    });
+    const objData = {
+      id: id,
+      title: title,
+      date: date,
+      note: "",
+      selected: true,
+      fontFamily: "sans-serif",
+      fontSize: "16px",
+    };
+    await fetch(
+      `${apiUrl}?action=insert&table=${noteSheet}&data=${JSON.stringify(
+        objData
+      )}`
+    );
   };
 
   // 4 - Delete Note Method
 
   deleteNote = async (id) => {
-    await fetch(`${noteApi}/${id}`, {
-      method: "DELETE",
-    });
+    await fetch(`${apiUrl}?action=delete&table=${noteSheet}&id=${id}`);
   };
 
   // 5 - Update title
 
   updateTitle = async (id, title, date) => {
-    await fetch(`${noteApi}/${id}`, {
-      method: "PATCH",
-      body: JSON.stringify({
-        title: title,
-        date: date,
-      }),
-      headers: {
-        "Content-type": "application/json; charset=UTF-8",
-      },
-    });
+    const updatedTitle = {
+      title: title,
+      date: date,
+    };
+    await fetch(
+      `${apiUrl}?action=update&table=${noteSheet}&id=${id}&data=${JSON.stringify(
+        updatedTitle
+      )}`
+    );
   };
 
   // 6 - Save Note
 
   saveNote = async (id, note, date, size, family) => {
-    await fetch(`${noteApi}/${id}`, {
-      method: "PATCH",
-      body: JSON.stringify({
-        note: note,
-        date: date,
-        fontFamily: family,
-        fontSize: size,
-      }),
-      headers: {
-        "Content-type": "application/json; charset=UTF-8",
-      },
-    });
+    const noteData = {
+      note: note,
+      date: date,
+      fontFamily: family,
+      fontSize: size,
+    };
+    const response = await fetch(
+      `${apiUrl}?action=update&table=${noteSheet}&id=${id}&data=${JSON.stringify(
+        noteData
+      )}`
+    );
+    const { data } = await response.json();
+
+    const filteredData = this.data.filter((note) => id !== note.id);
+    this.data = [...filteredData, data];
   };
 }
 
@@ -233,9 +239,9 @@ const onNoteSelect = (id) => {
   saveBtn.addEventListener("click", () => {
     onSaveNote();
   });
-  textArea.addEventListener("blur", () => {
-    onSaveNote();
-  });
+  // textArea.addEventListener("blur", () => {
+  //   onSaveNote();
+  // });
 };
 
 // Add Note event
@@ -284,8 +290,7 @@ createBtn.addEventListener("click", () => {
   app.sidebarNotes[0].classList.add("note-selected");
 
   // refresh page
-
-  pageReload();
+  refresh();
 });
 
 // DELETE A NOTE
@@ -300,7 +305,7 @@ const onToggleDelete = (id) => {
     app.deleteNote(id);
 
     // refresh page
-    pageReload();
+    refresh();
   });
 };
 
@@ -325,7 +330,7 @@ const onToggleEdit = (id, title) => {
     });
     app.updateTitle(id, updatedTitle, updatedDate);
     // refresh page
-    pageReload();
+    refresh();
   });
 };
 
@@ -387,24 +392,23 @@ const onToggleDarkMode = () => {
 
 // dark mode Api
 const fetchDarkMode = async () => {
-  const darkResponse = await fetch(darkModeApi);
-  const darkResult = await darkResponse.json();
-  darkModeToggler.checked = darkResult.darkMode;
+  const darkResponse = await fetch(`${apiUrl}?action=read&table=dark`);
+  const { data } = await darkResponse.json();
+
+  darkModeToggler.checked = data[0].darkMode;
   onToggleDarkMode();
 };
 
 // Update Dark-mode Api
 
 const updateDarkMode = async (checked) => {
-  await fetch(darkModeApi, {
-    method: "PATCH",
-    body: JSON.stringify({
-      darkMode: checked,
-    }),
-    headers: {
-      "Content-type": "application/json; charset=UTF-8",
-    },
-  });
+  const darkData = {
+    darkMode: checked,
+  };
+
+  await fetch(
+    `${apiUrl}?action=update&table=dark&id=1&data=${JSON.stringify(darkData)}`
+  );
 };
 
 // Toogle Dark-mode
@@ -413,7 +417,6 @@ darkModeToggler.addEventListener("change", () => {
   onToggleDarkMode();
   updateDarkMode(darkModeToggler.checked);
 });
-fetchDarkMode();
 
 // Share Note
 
@@ -450,3 +453,7 @@ let maxSize = window.matchMedia("(max-width: 690px)");
 
 responsivePage(maxSize);
 maxSize.addEventListener("change", responsivePage);
+
+window.addEventListener("load", () => {
+  fetchDarkMode();
+});
