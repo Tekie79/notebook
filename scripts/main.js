@@ -149,13 +149,11 @@ class NotebookApp {
       fontFamily: "sans-serif",
       fontSize: "16px",
     };
-    const newNote = await fetch(
+    await fetch(
       `${apiUrl}?action=insert&table=${noteSheet}&data=${JSON.stringify(
         objData
       )}`
     );
-
-    const { data } = await newNote.json();
     // this.data = [...this.data, data];
   };
 
@@ -305,6 +303,9 @@ createBtn.addEventListener("click", () => {
   textArea.focus();
   app.sidebarNotes[0].classList.add("note-selected");
 
+  // window
+  noteBody.classList.add("hidden");
+
   // refresh page
   refresh();
 });
@@ -320,6 +321,14 @@ const onToggleDelete = (id) => {
   deleteYesBtn.addEventListener("click", () => {
     app.deleteNote(id);
     noteTitle.innerHTML = "";
+
+    // window
+    noteBody.classList.add("hidden");
+    pageHeader.classList.remove("hide-element");
+
+    window.scrollTo(0, 0);
+    notebookContainer.classList.remove("hide-element");
+
     // refresh page
     refresh();
   });
