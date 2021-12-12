@@ -221,6 +221,7 @@ function onNoteSelect(id) {
     pageHeader.classList.add("hide-element");
 
     window.scrollTo(rect.left, 0);
+    notebookContainer.classList.add("hide-element");
   } else {
     window.scrollTo(0, 0);
     pageHeader.classList.remove("hide-element");
@@ -478,4 +479,5 @@ backArrow.addEventListener("click", () => {
   window.scrollTo(0, 0);
   pageHeader.classList.remove("hide-element");
   noteBody.classList.add("hidden");
+  notebookContainer.classList.remove("hide-element");
 });

@@ -93,11 +93,11 @@
 }
 @media (max-width: 670px) {
   .note__text-area {
-    width: 95vw;
+    width: 90vw;
     margin-right: 20px;
   }
   .notebook-body__tools {
-    width: 95vw;
+    width: 90vw;
   }
   .note-body__title {
     width: 100vw;
@@ -114,7 +114,8 @@
     margin-left: 20px;
   }
   .notebook-body {
-    margin-left: 40px;
+    margin-left: 0px;
+    padding-left: 5px;
   }
 }
 @media (max-width: 490px){
