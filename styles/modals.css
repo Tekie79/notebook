@@ -14,7 +14,8 @@
   position: fixed;
   z-index: 1;
   top: 30%;
-  left: 34%;
+  left: 50%;
+  transform: translateX(-50%);
   border: 2px solid rgb(75, 158, 126);
   border-radius: 20px;
   width: 500px;
@@ -25,6 +26,7 @@
   flex-direction: column;
   padding: 20px;
   align-items: center;
+
   /* justify-content: space-evenly; */
 }
 .add-note__input,
@@ -96,7 +98,6 @@
   .add-note__modal,
   .delete-note__modal,
   .edit-note__modal {
-    left: 4%;
     width: 330px;
   }
   .add-note__input,

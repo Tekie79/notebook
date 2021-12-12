@@ -7,6 +7,7 @@ const noteSheet = "notebook";
 const darkModeSheet = "dark";
 
 //Selectors
+const pageHeader = document.querySelector(".notebook-header");
 const notebookContainer = document.querySelector(".notebook-sidebar");
 const textArea = document.querySelector(".note__text-area");
 const noteBody = document.querySelector(".notebook-body");
@@ -37,6 +38,9 @@ const darkModeToggler = document.querySelector("#dark-mode");
 const notebookHeader = document.querySelector(".notebook-header");
 const notebookHeaderTitle = document.querySelector(".notebook-header__title");
 const notebookTools = document.querySelector(".notebook-body__tools");
+const backArrow = document.querySelector(".fa-arrow-left");
+
+let maxSize = window.matchMedia("(max-width: 690px)");
 // page reload
 
 const refresh = () => {
@@ -206,16 +210,26 @@ const app = new NotebookApp();
 
 // Toggle Selected note
 
-const onNoteSelect = (id) => {
+function onNoteSelect(id) {
   noteBody.classList.remove("hidden");
 
   // Window
-  window.scrollTo(0, 0);
+
+  if (maxSize.matches) {
+    const rect = noteBody.getBoundingClientRect();
+
+    pageHeader.classList.add("hide-element");
+
+    window.scrollTo(rect.left, 0);
+  } else {
+    window.scrollTo(0, 0);
+    pageHeader.classList.remove("hide-element");
+  }
+
   //fetch
   app.fetchSelectedNote(id);
 
   // save note function
-
   const onSaveNote = () => {
     if (id === app.selectedId) {
       const updatedNote = textArea.value;
@@ -243,7 +257,7 @@ const onNoteSelect = (id) => {
   // textArea.addEventListener("blur", () => {
   //   onSaveNote();
   // });
-};
+}
 
 // Add Note event
 addBtn.addEventListener("click", () => {
@@ -444,16 +458,24 @@ const responsivePage = (size) => {
     console.log("small screen");
     notebookContainer.style.width = "80%";
     noteBody.style.width = "0%";
+    backArrow.classList.remove("hide-element");
     // onClick
   } else {
     notebookContainer.style.width = "360px";
     noteBody.style.width = "75%";
+    backArrow.classList.add("hide-element");
   }
 };
-
-let maxSize = window.matchMedia("(max-width: 690px)");
 
 responsivePage(maxSize);
 maxSize.addEventListener("change", responsivePage);
 
 fetchDarkMode();
+
+// Back Arrow onClick
+
+backArrow.addEventListener("click", () => {
+  window.scrollTo(0, 0);
+  pageHeader.classList.remove("hide-element");
+  noteBody.classList.add("hidden");
+});
