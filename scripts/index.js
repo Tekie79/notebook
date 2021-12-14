@@ -165,7 +165,7 @@ class NotebookApp {
   // 5 - Update title
 
   updateTitle = (title, date) => {
-    console.log(this.selectedId);
+    // console.log(this.selectedId);
     const noteToUpdate = this.data.find((note) => this.selectedId === note.id);
 
     noteToUpdate.title = title;
