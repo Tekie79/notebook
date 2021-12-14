@@ -63,8 +63,8 @@ class NotebookApp {
 
   // 1 - Fetch Notebook title and date to the Sidebar card.
 
-  fetchCard = async () => {
-    const resultArray = await JSON.parse(this.noteStorage.getItem("notebook"));
+  fetchCard = () => {
+    const resultArray = JSON.parse(this.noteStorage.getItem("notebook"));
 
     this.data =
       resultArray &&
@@ -164,19 +164,24 @@ class NotebookApp {
 
   // 5 - Update title
 
-  updateTitle = (id, title, date) => {
-    const [noteToUpdate] = this.data.filter((note) => id === note.id);
+  updateTitle = (title, date) => {
+    console.log(this.selectedId);
+    const noteToUpdate = this.data.find((note) => this.selectedId === note.id);
+
     noteToUpdate.title = title;
     noteToUpdate.date = date;
-    const otherNotes = this.data.filter((note) => id !== note.id);
+    const otherNotes = this.data.filter((note) => this.selectedId !== note.id);
     this.data = [...otherNotes, noteToUpdate];
     this.noteStorage.setItem("notebook", JSON.stringify(this.data));
+
+    noteTitle.textContent = title;
   };
 
   // 6 - Save Note
 
   saveNote = async (id, note, date, size, family) => {
     const [noteSelected] = this.data.filter((note) => id === note.id);
+
     noteSelected.date = date;
     noteSelected.note = note;
     noteSelected.fontSize = size;
@@ -238,7 +243,8 @@ function onNoteSelect(id) {
         updatedNote,
         noteUpdatedDate,
         newFontSize,
-        newFontFamily
+        newFontFamily,
+        title
       );
     }
   };
@@ -368,7 +374,8 @@ const onToggleEdit = (id, title) => {
       hour: "2-digit",
       minute: "2-digit",
     });
-    app.updateTitle(id, updatedTitle, updatedDate);
+    app.updateTitle(updatedTitle, updatedDate);
+
     // refresh page
     refresh();
   });
