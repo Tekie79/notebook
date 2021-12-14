@@ -63,8 +63,8 @@ class NotebookApp {
 
   // 1 - Fetch Notebook title and date to the Sidebar card.
 
-  fetchCard = () => {
-    const resultArray = JSON.parse(this.noteStorage.getItem("notebook"));
+  fetchCard = async () => {
+    const resultArray = await JSON.parse(this.noteStorage.getItem("notebook"));
 
     this.data =
       resultArray &&
