@@ -63,8 +63,8 @@ class NotebookApp {
 
   // 1 - Fetch Notebook title and date to the Sidebar card.
 
-  fetchCard = () => {
-    const resultArray = JSON.parse(this.noteStorage.getItem("notebook"));
+  fetchCard = async () => {
+    const resultArray = await JSON.parse(this.noteStorage.getItem("notebook"));
 
     this.data =
       resultArray &&
@@ -317,7 +317,6 @@ createBtn.addEventListener("click", () => {
 
   noteBody.classList.remove("hidden");
   textArea.focus();
-  app.sidebarNotes[0].classList.add("note-selected");
 
   // window
   noteBody.classList.add("hidden");
@@ -424,10 +423,10 @@ const onToggleDarkMode = () => {
 };
 
 // dark mode Api
-const fetchDarkMode = () => {
+const fetchDarkMode = async () => {
   const darkResponse = window.localStorage.getItem("dark");
   const darkData = JSON.parse(darkResponse);
-  app.fetchCard();
+  await app.fetchCard();
   darkModeToggler.checked = darkData && darkData.darkMode;
   onToggleDarkMode();
   // console.log(darkData);
