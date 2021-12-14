@@ -207,6 +207,7 @@ const app = new NotebookApp();
 
 function onNoteSelect(id) {
   noteBody.classList.remove("hidden");
+  noteBody.classList.remove("hide-element");
 
   // Window
 
