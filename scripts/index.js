@@ -149,15 +149,15 @@ class NotebookApp {
       fontSize: "16px",
     };
 
-    const newNoteArray = [...this.data, objData];
-    this.noteStorage.setItem("notebook", JSON.stringify(newNoteArray));
+    this.data = [...this.data, objData];
+    this.noteStorage.setItem("notebook", JSON.stringify(this.data));
   };
 
   // 4 - Delete Note Method
 
   deleteNote = (id) => {
-    const updatedNote = this.data.filter((note) => id !== note.id);
-    this.noteStorage.setItem("notebook", JSON.stringify(updatedNote));
+    this.data = this.data.filter((note) => id !== note.id);
+    this.noteStorage.setItem("notebook", JSON.stringify(this.data));
   };
 
   // 5 - Update title
@@ -167,8 +167,8 @@ class NotebookApp {
     noteToUpdate.title = title;
     noteToUpdate.date = date;
     const otherNotes = this.data.filter((note) => id !== note.id);
-    const updatedNotes = [...otherNotes, noteToUpdate];
-    this.noteStorage.setItem("notebook", JSON.stringify(updatedNotes));
+    this.data = [...otherNotes, noteToUpdate];
+    this.noteStorage.setItem("notebook", JSON.stringify(this.data));
   };
 
   // 6 - Save Note
@@ -181,8 +181,8 @@ class NotebookApp {
     noteSelected.fontFamily = family;
 
     const otherNotes = this.data.filter((note) => note.id !== id);
-    const notesToSave = [...otherNotes, noteSelected];
-    this.noteStorage.setItem("notebook", JSON.stringify(notesToSave));
+    this.data = [...otherNotes, noteSelected];
+    this.noteStorage.setItem("notebook", JSON.stringify(this.data));
   };
 }
 
@@ -337,7 +337,7 @@ const onToggleDelete = (id) => {
     noteTitle.innerHTML = "";
 
     // window
-    noteBody.classList.add("hidden");
+    noteBody.classList.add("hide-element");
     pageHeader.classList.remove("hide-element");
 
     window.scrollTo(0, 0);
