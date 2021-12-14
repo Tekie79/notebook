@@ -63,8 +63,8 @@ class NotebookApp {
 
   // 1 - Fetch Notebook title and date to the Sidebar card.
 
-  fetchCard = async () => {
-    const resultArray = await JSON.parse(this.noteStorage.getItem("notebook"));
+  fetchCard = () => {
+    const resultArray = JSON.parse(this.noteStorage.getItem("notebook"));
 
     this.data =
       resultArray &&
@@ -149,10 +149,12 @@ class NotebookApp {
       fontSize: "16px",
     };
     if (!this.data) {
-      this.noteStorage.setItem("notebook", JSON.stringify([objData]));
+      this.data = [objData];
+      this.noteStorage.setItem("notebook", JSON.stringify(this.data));
+    } else {
+      this.data = [...this.data, objData];
+      this.noteStorage.setItem("notebook", JSON.stringify(this.data));
     }
-    this.data = [...this.data, objData];
-    this.noteStorage.setItem("notebook", JSON.stringify(this.data));
   };
 
   // 4 - Delete Note Method
