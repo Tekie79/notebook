@@ -51,7 +51,7 @@ const refresh = () => {
 
 class NotebookApp {
   constructor() {
-    this.data;
+    this.data = [];
     this.selected = false;
     this.sidebarNotes;
     this.selectedId;
@@ -148,7 +148,9 @@ class NotebookApp {
       fontFamily: "sans-serif",
       fontSize: "16px",
     };
-
+    if (!this.data) {
+      this.noteStorage.setItem("notebook", JSON.stringify([objData]));
+    }
     this.data = [...this.data, objData];
     this.noteStorage.setItem("notebook", JSON.stringify(this.data));
   };
