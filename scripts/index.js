@@ -245,8 +245,7 @@ function onNoteSelect(id) {
         updatedNote,
         noteUpdatedDate,
         newFontSize,
-        newFontFamily,
-        title
+        newFontFamily
       );
     }
   };
