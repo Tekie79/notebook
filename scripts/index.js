@@ -211,7 +211,7 @@ function onNoteSelect(id) {
     notebookContainer.classList.add("hide-element");
   } else {
     window.scrollTo(0, 0);
-    noteBody.classList.add("hide-element")
+
     pageHeader.classList.remove("hide-element");
   }
 
@@ -262,9 +262,14 @@ function onNoteSelect(id) {
     }, 1000)
   );
 
-  // textArea.addEventListener("blur", () => {
-  //   onSaveNote();
-  // });
+  fontSize.addEventListener("change", () => {
+    textArea.style.fontSize = fontSize.value;
+  });
+
+  // font-family
+  fontFamily.addEventListener("change", () => {
+    textArea.style.fontFamily = fontFamily.value;
+  });
 }
 
 // Add Note event
@@ -371,14 +376,6 @@ const onToggleEdit = (id, title) => {
 // Save note
 
 // font-size
-fontSize.addEventListener("change", () => {
-  textArea.style.fontSize = fontSize.value;
-});
-
-// font-family
-fontFamily.addEventListener("change", () => {
-  textArea.style.fontFamily = fontFamily.value;
-});
 
 // Dark-Mode
 
