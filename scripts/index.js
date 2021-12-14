@@ -487,6 +487,7 @@ const responsivePage = (size) => {
     notebookContainer.style.width = "360px";
     noteBody.style.width = "75%";
     noteBody.classList.remove("hide-element");
+    noteBody.classList.add("hidden");
     backArrow.classList.add("hide-element");
   }
 };
