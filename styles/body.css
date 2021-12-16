@@ -7,16 +7,15 @@
   width: 75%;
   height: 100vh;
   padding: 10px;
-  
 }
 
-.note-title__container{
+.note-title__container {
   display: flex;
- 
+
   align-items: center;
   position: relative;
 }
-.fa-arrow-left{
+.fa-arrow-left {
   font-size: 20px;
   position: absolute;
   cursor: pointer;
@@ -37,7 +36,7 @@
   /* border-radius: 5px; */
 }
 .font-family select {
-  width: 240px;
+  width: 200px;
 }
 .notebook-body__tools select {
   height: 30px;
@@ -82,7 +81,51 @@
 .note-body__title {
   padding-top: 20px;
   margin-left: 5px;
-  white-space:nowrap;
+  white-space: nowrap;
+}
+
+#font-color,
+#bg-color {
+  visibility: hidden;
+  outline: none;
+  border: none;
+  width: 25px;
+  height: 20px;
+  border-radius: 100%;
+  background-color: transparent;
+  position: relative;
+}
+.fa-eye-dropper,
+.fa-palette {
+  font-size: 18px;
+  cursor: pointer;
+  color: rgb(100, 99, 99);
+}
+.font-color__tooltip,
+.bg-color__tooltip {
+  position: absolute;
+  font-size: 14px;
+  font-weight: 400;
+  text-align: center;
+  z-index: 1;
+  top: 0;
+  transform: translateX(-30px);
+  opacity: 0;
+  color: rgb(35, 165, 132);
+}
+@keyframes effect {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+.fa-eye-dropper:hover .font-color__tooltip {
+  animation: effect 3s;
+}
+.fa-palette:hover .bg-color__tooltip {
+  animation: effect 3s;
 }
 
 @media (max-width: 800px) {
@@ -118,22 +161,37 @@
     padding-left: 5px;
   }
 }
-@media (max-width: 490px){
-  .fa-arrow-left{
+@media (max-width: 490px) {
+  .fa-arrow-left {
     left: 300px;
   }
+  .font-family select{
+    width: 100px;
+  }
+  .note-share {
+    /* transform: translateX(10px); */
+    display: none;
+  }
+  #font-color,
+#bg-color{
+  
+  width: 10px;
+}
+.note-save__btn {
+  font-size: 12px;
+  margin-left: 10px;
+  padding: 10px;
+}
 }
 
 @media (max-width: 350px) {
-  .note-share {
-    transform: translateX(10px);
-    /* display: none; */
-  }
+  
   .note-save__btn {
-    font-size: 14px;
-    margin-left: 10px;
+    font-size: 12px;
+    margin-left: 5px;
+    padding: 5px;
   }
-  .fa-arrow-left{
+  .fa-arrow-left {
     left: 250px;
   }
 }

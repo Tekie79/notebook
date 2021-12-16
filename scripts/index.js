@@ -30,6 +30,8 @@ const shareBtn = document.querySelector(".note-share");
 // select options
 const fontFamily = document.querySelector("#font-family");
 const fontSize = document.querySelector("#font-size");
+const fontColor = document.querySelector("#font-color");
+const bgColor = document.querySelector("#bg-color");
 
 const pageBody = document.querySelector("body");
 
@@ -108,6 +110,9 @@ class NotebookApp {
     this.selectedId = id;
     textArea.style.fontSize = noteResult.fontSize;
     textArea.style.fontFamily = noteResult.fontFamily;
+    // font color
+    textArea.style.color = noteResult.fontColor;
+    textArea.style.backgroundColor = noteResult.bgColor;
 
     // display selected font-size to the ui
     const fontSizeOptions = fontSize.options;
@@ -125,6 +130,8 @@ class NotebookApp {
         fontFamily.selectedIndex = j;
       }
     }
+
+    //
 
     // Style Selection
 
@@ -147,6 +154,8 @@ class NotebookApp {
       selected: true,
       fontFamily: "sans-serif",
       fontSize: "16px",
+      fontColor: "",
+      bgColor: "",
     };
     if (!this.data) {
       this.data = [objData];
@@ -181,13 +190,15 @@ class NotebookApp {
 
   // 6 - Save Note
 
-  saveNote = async (id, note, date, size, family) => {
+  saveNote = async (id, note, date, size, family, color, bg) => {
     const [noteSelected] = this.data.filter((note) => id === note.id);
 
     noteSelected.date = date;
     noteSelected.note = note;
     noteSelected.fontSize = size;
     noteSelected.fontFamily = family;
+    noteSelected.fontColor = color;
+    noteSelected.bgColor = bg;
 
     const otherNotes = this.data.filter((note) => note.id !== id);
     this.data = [...otherNotes, noteSelected];
@@ -228,6 +239,17 @@ function onNoteSelect(id) {
   //fetch
   app.fetchSelectedNote(id);
 
+  let newFontColor = "";
+  let newBgColor = "";
+  fontColor.addEventListener("change", () => {
+    newFontColor = fontColor.value;
+    textArea.style.color = fontColor.value;
+  });
+  bgColor.addEventListener("change", () => {
+    newBgColor = bgColor.value;
+    textArea.style.backgroundColor = bgColor.value;
+  });
+
   // save note function
   const onSaveNote = () => {
     if (id === app.selectedId) {
@@ -241,12 +263,17 @@ function onNoteSelect(id) {
       });
       const newFontSize = fontSize.value;
       const newFontFamily = fontFamily.value;
+
+      // Font Styling
+
       app.saveNote(
         id,
         updatedNote,
         noteUpdatedDate,
         newFontSize,
-        newFontFamily
+        newFontFamily,
+        newFontColor,
+        newBgColor
       );
     }
   };
@@ -363,6 +390,7 @@ const onToggleEdit = (id, title) => {
   editModal.classList.remove("modal-hide");
   editInput.value = title;
   editInput.focus();
+  editInput.select();
   modalBg.classList.remove("modal-hide");
   pageBody.classList.add("no-scroll");
 

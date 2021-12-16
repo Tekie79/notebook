@@ -41,6 +41,10 @@
   border-radius: 10px;
   transition: all 0.2s ease-in-out;
 }
+.edit-note__input::selection {
+  background-color: #39a388;
+  color: white;
+}
 .add-note__input:focus {
   box-shadow: 2px 2px 6px rgba(53, 54, 54, 0.16);
 }
